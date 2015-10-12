@@ -354,13 +354,14 @@ $(document).ready(function() {
 
 });
 
+
 database = function() {
   $.ajax({
     method: 'GET',
     dataType: 'json',
     url: 'api/cms/all',
     success: function(res) {
-      res = JSON.parse(res);
+      //res = JSON.parse(res);
       console.log(res);
       global.capaCats = res.capas;
       global.prodCats = res.prods;
