@@ -276,7 +276,7 @@ $(document).ready(function() {
 
   // tile click lightbox
   global.$capaTiles.on('click', 'div img', function() {
-    $('#wrapper a[rel="lightbox[' + $(this).siblings('a').text() + ']"]').first().click();
+    $('#wrapper a[data-lightbox="' + $(this).siblings('a').text() + '"]').first().click();
   });
 
   // list-tile hover animation
@@ -326,7 +326,7 @@ $(document).ready(function() {
 
   // tile click lightbox
   global.$prodTiles.on('click', 'div img', function() {
-    $('#wrapper a[rel="lightbox[' + $(this).siblings('a').text() + ']"]').first().click();
+    $('#wrapper a[data-lightbox="' + $(this).siblings('a').text() + '"]').first().click();
   });
 
   // list-tile hover animation
@@ -377,12 +377,12 @@ database = function() {
           res.imgs[i].Flags.splice(index, 1);
         }
         for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
-          var lightbox_str = 'lightbox[' + res.imgs[i].Capabilities[j] + ']';
-          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" rel="' + lightbox_str + '"></a>');
+          var lightbox_str = res.imgs[i].Capabilities[j];
+          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
         }
         for (var j = 0; j < res.imgs[i].Products.length; j++) {
-          var lightbox_str = 'lightbox[' + res.imgs[i].Products[j] + ']';
-          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" rel="' + lightbox_str + '"></a>');
+          var lightbox_str = res.imgs[i].Products[j];
+          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
         }
         for (var j = 0; j < res.imgs[i].Flags.length; j++) {
           var flag_obj = JSON.parse(res.imgs[i].Flags[j]);
