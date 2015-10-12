@@ -48,7 +48,7 @@ body {
   font-weight: bolder;
   color: #f1efe6;
   padding-bottom: 5px;
-  padding-top: 10px;
+  padding-top: 5px;
   margin-left: auto;
   margin-right: auto;
   right: 0;
@@ -1201,4 +1201,8 @@ div#shipping p {
 #bubbleDiv .bubble {
   padding: 5px;
   cursor: pointer;
+}
+#callus {
+  position: relative;
+  margin-top: 15px;
 }
