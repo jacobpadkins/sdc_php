@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Store Decor Co.</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/lightbox.css">
+    <link rel="stylesheet" href="css/cms.css">
+    <!--link rel="stylesheet" href="css/main.css"-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.timer.js"></script>
+    <script src="js/cms.js"></script>
+  </head>
+  <body>
+    <div id="cms">
+      <div id="wrapper_top">
+        <p>Welcome to The Store Decor Co CMS</p>
+        <div id="preview_wrapper"><img id="file_preview"/></div>
+        <form action="api/cms/img" method="POST" enctype="multipart/form-data">
+          <input type="file" name="file_to_upload" id="file_select"/>
+          <input type="button" value="upload" id="file_upload"/>
+        </form>
+        <p>slideshow / sm_slideshow --- is_a / rep. / b&w</p>
+        <p>Add Capa. Category</p>
+        <input type="button" value="+" id="capa_button"/>
+        <input type="text" style="color:black;" id="capa_input"/>
+        <p>Add Prod. Category</p>
+        <input type="button" value="+" id="prod_button"/>
+        <input type="text" style="color:black;" id="prod_input"/>
+        <input type="password" placeholder="password" id="password"/>
+      </div>
+      <div id="wrapper_bottom">
+        <div id="images_col"></div>
+        <div id="capas_col"></div>
+        <div id="prods_col"></div>
+      </div>
+    </div>
+  </body>
+</html>

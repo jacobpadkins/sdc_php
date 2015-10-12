@@ -1,0 +1,182 @@
+html,
+body {
+  background-color: #605f5b;
+}
+#cms {
+  height: 100%;
+  width: 100%;
+  background-color: #1352a5;
+  font-family: 'Montserrat', sans-serif;
+  color: #f1efe6;
+}
+#cms #wrapper_top {
+  margin-top: 20px;
+  border: solid 5px #f1efe6;
+  background-color: #1352a5;
+  height: 430px;
+  width: 1024px;
+  position: absolute;
+  left: 50%;
+  margin-left: -512px;
+}
+#cms #wrapper_top #password {
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+#cms #wrapper_top p:nth-of-type(1) {
+  width: 100%;
+  text-align: center;
+  font-size: 32px;
+}
+#cms #wrapper_top p:nth-of-type(2) {
+  position: absolute;
+}
+#cms #wrapper_top p:nth-of-type(3) {
+  margin-left: 530px;
+  margin-top: -50px;
+  position: absolute;
+  font-size: 22px;
+}
+#cms #wrapper_top p:nth-of-type(4) {
+  margin-left: 780px;
+  margin-top: -50px;
+  position: absolute;
+  font-size: 22px;
+}
+#cms #wrapper_top #preview_wrapper {
+  margin-left: 10px;
+  width: 400px;
+  height: 300px;
+  background-color: #000;
+}
+#cms #wrapper_top #preview_wrapper #file_preview {
+  max-height: 100%;
+  max-width: 100%;
+}
+#cms #wrapper_top #file_select {
+  margin-left: 10px;
+  width: 800px;
+}
+#cms #wrapper_top #file_upload {
+  margin-left: 10px;
+  width: 250px;
+  color: #605f5b;
+}
+#cms #wrapper_top #capa_button {
+  width: 40px;
+  height: 26px;
+  position: absolute;
+  margin-left: 520px;
+  margin-top: -20px;
+  color: #605f5b;
+}
+#cms #wrapper_top #capa_input {
+  position: absolute;
+  margin-left: 570px;
+  margin-top: -20px;
+  width: 180px;
+}
+#cms #wrapper_top #prod_button {
+  width: 40px;
+  height: 26px;
+  position: absolute;
+  margin-left: 770px;
+  margin-top: -20px;
+  color: #605f5b;
+}
+#cms #wrapper_top #prod_input {
+  position: absolute;
+  margin-left: 820px;
+  margin-top: -20px;
+  width: 180px;
+}
+#cms #wrapper_bottom {
+  border-left: solid 5px #f1efe6;
+  border-right: solid 5px #f1efe6;
+  border-bottom: solid 5px #f1efe6;
+  background-color: #1352a5;
+  margin-top: 450px;
+  height: 400px;
+  width: 1024px;
+  position: absolute;
+  left: 50%;
+  margin-left: -512px;
+}
+#cms #wrapper_bottom #images_col,
+#cms #wrapper_bottom #capas_col,
+#cms #wrapper_bottom #prods_col {
+  height: 400px;
+  float: left;
+}
+#cms #wrapper_bottom #images_col {
+  width: 514px;
+  border-right: solid 5px #f1efe6;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+#cms #wrapper_bottom #images_col .image {
+  width: 100%;
+}
+#cms #wrapper_bottom #capas_col {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 255px;
+  border-right: solid 5px #f1efe6;
+}
+#cms #wrapper_bottom #prods_col {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 245px;
+}
+#cms #wrapper_bottom #images_col input,
+#cms #wrapper_bottom #capas_col input,
+#cms #wrapper_bottom #prods_col input {
+  position: absolute;
+}
+#cms #wrapper_bottom #images_col input:nth-of-type(1),
+#cms #wrapper_bottom #capas_col input:nth-of-type(1),
+#cms #wrapper_bottom #prods_col input:nth-of-type(1) {
+  margin-left: 25px;
+}
+#cms #wrapper_bottom #images_col input:nth-of-type(2),
+#cms #wrapper_bottom #capas_col input:nth-of-type(2),
+#cms #wrapper_bottom #prods_col input:nth-of-type(2) {
+  margin-left: 45px;
+}
+#cms #wrapper_bottom #images_col input:nth-of-type(3),
+#cms #wrapper_bottom #capas_col input:nth-of-type(3),
+#cms #wrapper_bottom #prods_col input:nth-of-type(3) {
+  margin-left: 65px;
+}
+.x_box {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+}
+.x_box:hover {
+  cursor: pointer;
+}
+.x_mark {
+  width: 20px;
+  height: 20px;
+  background-image: url("/assets/images/red_cross.png");
+}
+.x_mark:hover {
+  cursor: default;
+}
+span:hover {
+  color: #000;
+}
+#images_col span {
+  white-space: nowrap;
+  margin-left: 65px;
+}
+#images_col span:hover {
+  cursor: pointer;
+}
+#capas_col span,
+#prods_col span {
+  white-space: nowrap;
+  margin-left: 85px;
+}

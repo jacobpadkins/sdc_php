@@ -1,0 +1,6 @@
+<Files "cms.html">
+AuthType Basic
+AuthName "CMS"
+AuthUserFile /var/www/html/webapp_new/storedecor
+Require user storedecor
+</Files>

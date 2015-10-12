@@ -1,0 +1,194 @@
+//color variables
+color1 = #1352A5
+color4 = #F1EFE6
+color5 = #F26522
+color9 = #605F5B
+
+html, body {
+  background-color: color9
+}
+
+#cms {
+  height: 100%
+  width: 100%
+  background-color: color1
+  font-family: 'Montserrat', sans-serif
+  color: color4
+  #wrapper_top {
+    #password {
+      position: absolute
+      top: 50px
+      right: 0
+    }
+    margin-top: 20px
+    border: solid 5px color4
+    background-color: color1
+    height: 430px
+    width: 1024px
+    position: absolute
+    left: 50%
+    margin-left: -512px
+    p:nth-of-type(1) {
+      width: 100%
+      text-align: center
+      font-size: 32px
+    }
+    p:nth-of-type(2) {
+      position: absolute
+    }
+    p:nth-of-type(3) {
+      margin-left: 530px
+      margin-top: -50px
+      position: absolute
+      font-size: 22px
+    }
+    p:nth-of-type(4) {
+      margin-left: 780px
+      margin-top: -50px
+      position: absolute
+      font-size: 22px
+    }
+    #preview_wrapper {
+      margin-left: 10px
+      width: 400px
+      height: 300px
+      background-color: black
+      #file_preview {
+        max-height: 100%
+        max-width: 100%
+      }
+    }
+    #file_select {
+      margin-left: 10px
+      width: 800px
+    }
+    #file_upload {
+      margin-left: 10px
+      width: 250px
+      color: color9
+    }
+    #capa_button {
+      width: 40px
+      height: 26px
+      position: absolute
+      margin-left: 520px
+      margin-top: -20px
+      color: color9
+    }
+    #capa_input {
+      color = color9
+      position: absolute
+      margin-left: 570px
+      margin-top: -20px
+      width: 180px
+    }
+    #prod_button {
+      width: 40px
+      height: 26px
+      position: absolute
+      margin-left: 770px
+      margin-top: -20px
+      color: color9
+    }
+    #prod_input {
+      color = color9
+      position: absolute
+      margin-left: 820px
+      margin-top: -20px
+      width: 180px
+    }
+  }
+  #wrapper_bottom {
+    border-left: solid 5px color4
+    border-right: solid 5px color4
+    border-bottom: solid 5px color4
+    background-color: color1
+    margin-top: 450px
+    height: 400px
+    width: 1024px
+    position: absolute
+    left: 50%
+    margin-left: -512px
+    #images_col,
+    #capas_col,
+    #prods_col {
+      height: 400px
+      float: left
+    }
+    #images_col {
+      width: 514px
+      border-right: solid 5px color4
+      overflow-x: hidden
+      overflow-y: scroll
+      .image {
+        width: 100%
+      }
+    }
+    #capas_col {
+      overflow-x: hidden
+      overflow-y: scroll
+      width: 255px
+      border-right: solid 5px color4
+    }
+    #prods_col {
+      overflow-x: hidden
+      overflow-y: scroll
+      width: 245px
+    }
+    #images_col,
+    #capas_col,
+    #prods_col {
+      input {
+        position: absolute
+      }
+      input:nth-of-type(1) {
+        margin-left: 25px
+      }
+      input:nth-of-type(2) {
+        margin-left: 45px
+      }
+      input:nth-of-type(3) {
+        margin-left: 65px
+      }
+    }
+  }
+}
+
+.x_box {
+  width: 20px
+  height: 20px
+  position: absolute
+}
+.x_box:hover {
+  cursor: pointer
+}
+.x_mark {
+  width: 20px
+  height: 20px
+  background-image: url("images/red_cross.png")
+}
+.x_mark:hover {
+  cursor: default
+}
+
+span:hover {
+  color: black
+}
+
+#images_col {
+  span {
+    white-space: nowrap
+    margin-left: 65px
+  }
+  span:hover {
+    cursor: pointer
+  }
+}
+
+#capas_col,
+#prods_col {
+  span {
+    white-space: nowrap
+    margin-left: 85px
+  }
+}
