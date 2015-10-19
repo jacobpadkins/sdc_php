@@ -139,16 +139,16 @@ html, body {
     #capas_col,
     #prods_col {
       input {
-        position: absolute
+        position: relative
       }
       input:nth-of-type(1) {
-        margin-left: 25px
+        //margin-left: 25px
       }
       input:nth-of-type(2) {
-        margin-left: 45px
+        //margin-left: 45px
       }
       input:nth-of-type(3) {
-        margin-left: 65px
+        //margin-left: 65px
       }
     }
   }
@@ -165,7 +165,7 @@ html, body {
 .x_mark {
   width: 20px
   height: 20px
-  background-image: url("images/red_cross.png")
+  background-image: url("../images/red_cross.png")
 }
 .x_mark:hover {
   cursor: default
@@ -178,7 +178,7 @@ span:hover {
 #images_col {
   span {
     white-space: nowrap
-    margin-left: 65px
+    margin-left: 25px
   }
   span:hover {
     cursor: pointer
@@ -189,6 +189,10 @@ span:hover {
 #prods_col {
   span {
     white-space: nowrap
-    margin-left: 85px
+    margin-left: 25px
   }
+}
+
+div.image, div.capa, div.prod {
+  border: 1px solid black
 }

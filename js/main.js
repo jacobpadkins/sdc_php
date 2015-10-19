@@ -359,7 +359,7 @@ database = function() {
   $.ajax({
     method: 'GET',
     dataType: 'json',
-    url: 'api/cms/img/all',
+    url: 'api/cms',
     success: function(res) {
       //res = JSON.parse(res);
       console.log(res);
