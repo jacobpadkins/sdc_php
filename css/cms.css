@@ -19,11 +19,6 @@ body {
   left: 50%;
   margin-left: -512px;
 }
-#cms #wrapper_top #password {
-  position: absolute;
-  top: 50px;
-  right: 0;
-}
 #cms #wrapper_top p:nth-of-type(1) {
   width: 100%;
   text-align: center;
@@ -117,6 +112,11 @@ body {
 }
 #cms #wrapper_bottom #images_col .image {
   width: 100%;
+  height: 25px;
+}
+#cms #wrapper_bottom #images_col .image div,
+#cms #wrapper_bottom #images_col .image span {
+  float: left;
 }
 #cms #wrapper_bottom #capas_col {
   overflow-x: hidden;
@@ -124,10 +124,18 @@ body {
   width: 255px;
   border-right: solid 5px #f1efe6;
 }
+#cms #wrapper_bottom #capas_col .capa div,
+#cms #wrapper_bottom #capas_col .capa span {
+  float: left;
+}
 #cms #wrapper_bottom #prods_col {
   overflow-x: hidden;
   overflow-y: scroll;
   width: 245px;
+}
+#cms #wrapper_bottom #prods_col .prod div,
+#cms #wrapper_bottom #prods_col .prod span {
+  float: left;
 }
 #cms #wrapper_bottom #images_col input,
 #cms #wrapper_bottom #capas_col input,
@@ -137,7 +145,9 @@ body {
 .x_box {
   width: 20px;
   height: 20px;
-  position: absolute;
+  position: relative;
+  margin-bottom: -20px;
+  background-image: url("../images/red_cross.png");
 }
 .x_box:hover {
   cursor: pointer;
@@ -145,17 +155,17 @@ body {
 .x_mark {
   width: 20px;
   height: 20px;
-  background-image: url("../images/red_cross.png");
-}
-.x_mark:hover {
-  cursor: default;
 }
 span:hover {
   color: #000;
 }
+input[type="checkbox"]:nth-of-type(1) {
+  margin-left: 5px;
+}
 #images_col span {
   white-space: nowrap;
-  margin-left: 25px;
+  margin-left: 55px;
+  position: relative;
 }
 #images_col span:hover {
   cursor: pointer;
@@ -163,10 +173,10 @@ span:hover {
 #capas_col span,
 #prods_col span {
   white-space: nowrap;
-  margin-left: 25px;
+  margin-left: 65px;
 }
 div.image,
 div.capa,
 div.prod {
-  border: 1px solid #000;
+  border-bottom: 2px solid #000;
 }

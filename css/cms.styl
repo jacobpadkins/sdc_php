@@ -15,11 +15,6 @@ html, body {
   font-family: 'Montserrat', sans-serif
   color: color4
   #wrapper_top {
-    #password {
-      position: absolute
-      top: 50px
-      right: 0
-    }
     margin-top: 20px
     border: solid 5px color4
     background-color: color1
@@ -122,6 +117,10 @@ html, body {
       overflow-y: scroll
       .image {
         width: 100%
+        height: 25px
+        div, span {
+          float: left
+        }
       }
     }
     #capas_col {
@@ -129,11 +128,22 @@ html, body {
       overflow-y: scroll
       width: 255px
       border-right: solid 5px color4
+      .capa {
+        div, span {
+          float: left
+        }
+      }
+
     }
     #prods_col {
       overflow-x: hidden
       overflow-y: scroll
       width: 245px
+      .prod {
+        div, span {
+          float: left
+        }
+      }
     }
     #images_col,
     #capas_col,
@@ -157,7 +167,9 @@ html, body {
 .x_box {
   width: 20px
   height: 20px
-  position: absolute
+  position: relative
+  margin-bottom: -20px
+  background-image: url("../images/red_cross.png")
 }
 .x_box:hover {
   cursor: pointer
@@ -165,20 +177,21 @@ html, body {
 .x_mark {
   width: 20px
   height: 20px
-  background-image: url("../images/red_cross.png")
-}
-.x_mark:hover {
-  cursor: default
 }
 
 span:hover {
   color: black
 }
 
+input[type="checkbox"]:nth-of-type(1) {
+  margin-left: 5px
+}
+
 #images_col {
   span {
     white-space: nowrap
-    margin-left: 25px
+    margin-left: 55px
+    position: relative
   }
   span:hover {
     cursor: pointer
@@ -189,10 +202,10 @@ span:hover {
 #prods_col {
   span {
     white-space: nowrap
-    margin-left: 25px
+    margin-left: 65px
   }
 }
 
 div.image, div.capa, div.prod {
-  border: 1px solid black
+  border-bottom: 2px solid black
 }

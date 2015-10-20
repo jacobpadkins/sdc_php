@@ -42,10 +42,15 @@ $app->get('/cms/img', function() use ($app, $db) {
 
 // uploads an image to the uploads folder and updates the database
 $app->post('/cms/img', function () use ($app, $db) {
-  $target_dir = __DIR__ . '/../images/uploads_tmp/';
+  // move file
+  $target_dir = __DIR__ . '/../images/uploads/';
   $target_file = $target_dir . basename($_FILES['file_to_upload']['name']);
   move_uploaded_file($_FILES['file_to_upload']['tmp_name'], $target_file);
-  header("Location: localhost:9000/webapp_new/");
+  //header("Location: localhost:9000/webapp_new/");
+  // update database
+  $doc = array('filename' => $_FILES['file_to_upload']['name'], 'Capabilities' => array(),
+    'Products' => array(), 'Flags' => array());
+  $db->images->insert($doc);
   exit();
 });
 
@@ -56,12 +61,25 @@ $app->put('/cms/img', function() use ($app, $db) {
 
 // deletes an image in the uploads folder
 $app->delete('/cms/img', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $target_file = $inputs['filename'];
+  $target_dir = __DIR__ . '/../images/uploads/';
+  $db->images->remove(array('filename' => $target_file));
+  unlink($target_dir . $target_file);
+  echo json_encode('success');
 });
 
 // returns all of the tags associated with an image
 $app->get('/cms/img/tags', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $file = $inputs['filename'];
+  $query = $db->images->findOne(array('filename' => $file), array('Capabilities' => 1,
+    'Products' => 1, 'Flags' => 1));
+  $tags = array('Capabilities' => $query['Capabilities'], 'Products' => $query['Products'],
+    'Flags' => $query['Flags']);
+  echo json_encode($tags);
 });
 
 // returns array of all capability category names
@@ -72,12 +90,20 @@ $app->get('/cms/capa', function() use ($app, $db) {
 
 // adds a new capability category names
 $app->post('/cms/capa', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $capa = $inputs['capa'];
+  $db->data->update(array('name' => 'data'), array('$push' => array('Capabilities' => $capa)));
+  echo json_encode('success');
 });
 
 // delete a capability category
 $app->delete('/cms/capa', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $capa = $inputs['capa'];
+  $db->data->update(array('name' => 'data'), array('$pull' => array('Capabilities' => $capa)));
+  echo json_encode('success');
 });
 
 // returns array of all product category names
