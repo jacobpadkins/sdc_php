@@ -72,7 +72,7 @@ $(document).ready(function() {
   // add a product category
   $('#prod_button').on('click', function() {
     if ($('#prod_input').val()) {
-      // TODO add_prod($('#prod_input').val());
+      add_prod($('#prod_input').val());
       $('#prod_input').val('');
     }
   });
@@ -84,7 +84,7 @@ $(document).ready(function() {
 
   // delete a product category
   $('#prods_col').on('click', '.prod .x_box', function() {
-    // TODO delete_prod($(this).siblings('.x_mark').children('span').text());
+    delete_prod($(this).siblings('.x_mark').children('span').text());
   });
 
   // change flags on checkbox changes - images col
@@ -213,12 +213,27 @@ set_categories = function(file) {
   var data = {filename: file};
   var json_data = JSON.stringify(data);
   $.ajax({
-    method: 'GET',
+    method: 'POST',
     dataType: 'json',
     url: 'api/cms/img/tags',
     data: json_data,
     success: function(res) {
       console.log(res);
+      for (var i = 0; i < res.Capabilities.length; i++) {
+        $('#capas_col span:contains("' + res.Capabilities[i] + '")').parent('.x_mark').siblings('input[name="is_a"]').prop('checked', 'true');
+      }
+      for (var i = 0; i < res.Products.length; i++) {
+        $('#prods_col span:contains("' + res.Products[i] + '")').parent('.x_mark').siblings('input[name="is_a"]').prop('checked', 'true');
+      }
+      for (var i = 0; i < res.Flags.length; i++) {
+        if (res.Flags[i] == 'Small_Slide' || res.Flags[i] == 'Big_Slide') {
+          $('#images_col span:contains("' + file + '")').parent('.x_mark').siblings('input[name="' + response.Flags[i] + '"]').prop('checked', 'true');
+        } else {
+          flag_obj = JSON.parse(res.Flags[i])
+          flag_key = Object.keys(flag_obj)
+          $('#capas_col, #prods_col').find('span:contains("' + flag_obj[flag_key[0]] + '")').parent('.x_mark').siblings('input[name="' + flag_key[0] + '"]').prop('checked', 'true');
+        }
+      }
     },
     error: function(err) {
       console.log(err);
@@ -255,6 +270,42 @@ delete_capa = function(_capa) {
     method: 'DELETE',
     dataType: 'json',
     url: 'api/cms/capa',
+    data: json_data,
+    success: function(res) {
+      console.log(res);
+      populate_categories();
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
+
+add_prod = function(_prod) {
+  var data = {prod: _prod};
+  var json_data = JSON.stringify(data);
+  $.ajax({
+    method: 'POST',
+    dataType: 'json',
+    url: 'api/cms/prod',
+    data: json_data,
+    success: function(res) {
+      console.log(res);
+      populate_categories();
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
+
+delete_prod = function(_prod) {
+  var data = {prod: _prod};
+  var json_data = JSON.stringify(data);
+  $.ajax({
+    method: 'DELETE',
+    dataType: 'json',
+    url: 'api/cms/prod',
     data: json_data,
     success: function(res) {
       console.log(res);

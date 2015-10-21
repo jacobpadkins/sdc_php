@@ -71,7 +71,7 @@ $app->delete('/cms/img', function() use ($app, $db) {
 });
 
 // returns all of the tags associated with an image
-$app->get('/cms/img/tags', function() use ($app, $db) {
+$app->post('/cms/img/tags', function() use ($app, $db) {
   $request = $app->request();
   $inputs = json_decode($request->getBody(), true);
   $file = $inputs['filename'];
@@ -114,12 +114,20 @@ $app->get('/cms/prod', function() use ($app, $db) {
 
 // adds a new product category name
 $app->post('/cms/prod', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $prod = $inputs['prod'];
+  $db->data->update(array('name' => 'data'), array('$push' => array('Products' => $prod)));
+  echo json_encode('success');
 });
 
 // delete a product category
 $app->delete('/cms/capa', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $prod = $inputs['prod'];
+  $db->data->update(array('name' => 'data'), array('$pull' => array('Products' => $prod)));
+  echo json_encode('success');
 });
 
 // sends out an email
