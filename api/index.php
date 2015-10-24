@@ -56,7 +56,39 @@ $app->post('/cms/img', function () use ($app, $db) {
 
 // all-purpose database tag updating function
 $app->put('/cms/img', function() use ($app, $db) {
-
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $operation = $inputs['operation'];
+  $category = $inputs['category'];
+  $file = $inputs['file'];
+  $name = $inputs['name'];
+  if ($operation == 1) {
+    switch ($category) {
+      case 'capa':
+        $db->images->update(array('filename' => $file), array('$push' => array('Capabilities' => $name)));
+        break;
+      case 'prod':
+        $db->images->update(array('filename' => $file), array('$push' => array('Products' => $name)));
+        break;
+      case 'flag':
+        $db->images->update(array('filename' => $file), array('$push' => array('Flags' => $name)));
+        break;
+    }
+  }
+  else {
+    switch ($category) {
+      case 'capa':
+        $db->images->update(array('filename' => $file), array('$pull' => array('Capabilities' => $name)));
+        break;
+      case 'prod':
+        $db->images->update(array('filename' => $file), array('$pull' => array('Products' => $name)));
+        break;
+      case 'flag':
+        $db->images->update(array('filename' => $file), array('$pull' => array('Flags' => $name)));
+        break;
+    }
+  }
+  echo json_encode('successfully changed ' . $name . ' for ' . $file);
 });
 
 // deletes an image in the uploads folder
@@ -132,7 +164,37 @@ $app->delete('/cms/capa', function() use ($app, $db) {
 
 // sends out an email
 $app->post('/cms/email', function() use ($app, $db) {
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
 
+  $name = $inputs['name'];
+  $company = $inputs['company'];
+  $phone = $inputs['phone'];
+  $email = $inputs['email'];
+  $city = $inputs['city'];
+  $state = $inputs['state'];
+  $info = $inputs['info'];
+
+  $date = date('m/d/Y h:i:s a', time());
+
+  $to = 'jacobpadkins@gmail.com'; //vision@thestoredecor.com
+  $subject = 'Contact Us Form Submission';
+  $message = 'Someone filled out the contact form at: ' . $date . "\r\n"
+    . 'name: ' . $name . "\r\n" . 'company: ' . $company . "\r\n"
+    . 'phone: ' . $phone . "\r\n" . 'email: ' . $email . "\r\n"
+    . 'city: ' . $city . "\r\n" . 'state: ' . $state . "\r\n"
+    . 'info: ' . $info;
+
+  $headers = 'From: webmaster@thestoredecor.com' . "\r\n" .
+    'Reply-To: webmaster@thestoredecor.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+  if (mail($to, $subject, $message, $headers)) {
+    echo json_encode('success');
+  }
+  else {
+    echo json_encode('error');
+  }
 });
 
 $app->run()

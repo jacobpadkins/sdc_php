@@ -87,9 +87,7 @@ $(document).ready(function() {
   global.$slideshowBG.fadeOut(0);
   middleResize(global.whichPage);
   highlightNavbar(0);
-  $('#submitButton').on('click', function() {
-    alert('clicked #submitButton');
-  });
+
   global.timer.play();
   global.timer_main.play();
   // hide/show logo on scroll
@@ -250,6 +248,43 @@ $(document).ready(function() {
       global.whichMainSlide = global.$bubbleDiv.length - 1;
     }
     swapMainSlide();
+  });
+
+  // contact us Submission
+  $('#submitButton').on('click', function() {
+    var _name = $('#input_name').val();
+    var _company = $('#input_company').val();
+    var _phone = $('#input_phone').val();
+    var _email = $('#input_email').val();
+    var _city = $('#input_city').val();
+    var _state = $('#input_state').val();
+    var _info = $('#input_info').val();
+    var data = {name: _name,
+                company: _company,
+                phone: _phone,
+                email: _email,
+                city: _city,
+                state: _state,
+                info: _info
+               };
+    var json_data = JSON.stringify(data);
+    $.ajax({
+      url: 'api/cms/email',
+      method: 'POST',
+      dataType: 'json',
+      data: json_data,
+      success: function(res) {
+        console.log(res);
+        $('#contWrapper').fadeOut(500,function() {
+          $('#contWrapper').empty();
+          $('#contWrapper').append('<h3>Thank you for your interest! We will get back to you as soon as possible.</h3>');
+          $('#contWrapper').fadeIn(500);
+        });
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   });
 
   /* FUNCTIONS FOR CAPA PAGE */

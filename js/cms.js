@@ -91,9 +91,9 @@ $(document).ready(function() {
   $('#images_col').on('change', 'input', function() {
     if (global.selected && $(this).attr('name') != 'is_a') {
       if ($(this).is(':checked')) {
-        // TODO lazy_func(1, $(this).siblings('.x_mark').children('span').text(), 'flag', $(this).attr('name'));
+        lazy_func(1, $(this).siblings('.x_mark').children('span').text(), 'flag', $(this).attr('name'));
       } else {
-        // TODO lazy_func(0, $(this).siblings('.x_mark').children('span').text(), 'flag', $(this).attr('name'));
+        lazy_func(0, $(this).siblings('.x_mark').children('span').text(), 'flag', $(this).attr('name'));
       }
     }
   });
@@ -104,30 +104,30 @@ $(document).ready(function() {
       if ($(this).attr('name') == 'rep_color') {
         var flag_obj = {rep_color: $(this).siblings('.x_mark').children('span').text()};
         if ($(this).is(':checked')) {
-          // TODO lazy_func(1, selected_file, 'flag', flag_obj);
+          lazy_func(1, global.selected_file, 'flag', flag_obj);
         } else if (!$(this).is(':checked')) {
-          // TODO lazy_func(0, selected_file, 'flag', flag_obj);
+          lazy_func(0, global.selected_file, 'flag', flag_obj);
         }
       } else if ($(this).attr('name') == 'rep_bw') {
         flag_obj = {rep_bw: $(this).siblings('.x_mark').children('span').text()}
         if ($(this).is(':checked')) {
-          // TODO lazy_func(1, selected_file, 'flag', flag_obj);
+          lazy_func(1, global.selected_file, 'flag', flag_obj);
         } else if (!$(this).is(':checked')) {
-          // TODO lazy_func(0, selected_file, 'flag', flag_obj);
+          lazy_func(0, global.selected_file, 'flag', flag_obj);
         }
       }
     } else if (global.selected && $(this).attr('name') == 'is_a') {
       if ($('#capas_col').has($(this)).length) {
         if ($(this).is(':checked')) {
-          // TODO lazy_func(1, selected_file, 'capa', $(this).siblings('.x_mark').children('span').text());
+          lazy_func(1, global.selected_file, 'capa', $(this).siblings('.x_mark').children('span').text());
         } else if(!$(this).is(':checked')) {
-          // TODO lazy_func(0, selected_file, 'capa', $(this).siblings('.x_mark').children('span').text());
+          lazy_func(0, global.selected_file, 'capa', $(this).siblings('.x_mark').children('span').text());
         }
       } else if ($('#prods_col').has($(this)).length) {
         if ($(this).is(':checked')) {
-          // TODO lazy_func(1, selected_file, 'prod', $(this).siblings('.x_mark').children('span').text());
+          lazy_func(1, global.selected_file, 'prod', $(this).siblings('.x_mark').children('span').text());
         } else if (!$(this).is(':checked')) {
-          // TODO lazy_func(0, selected_file, 'prod', $(this).siblings('.x_mark').children('span').text());
+          lazy_func(0, global.selected_file, 'prod', $(this).siblings('.x_mark').children('span').text());
         }
       }
     }
@@ -227,7 +227,7 @@ set_categories = function(file) {
       }
       for (var i = 0; i < res.Flags.length; i++) {
         if (res.Flags[i] == 'Small_Slide' || res.Flags[i] == 'Big_Slide') {
-          $('#images_col span:contains("' + file + '")').parent('.x_mark').siblings('input[name="' + response.Flags[i] + '"]').prop('checked', 'true');
+          $('#images_col span:contains("' + file + '")').parent('.x_mark').siblings('input[name="' + res.Flags[i] + '"]').prop('checked', 'true');
         } else {
           flag_obj = JSON.parse(res.Flags[i])
           flag_key = Object.keys(flag_obj)
@@ -315,4 +315,21 @@ delete_prod = function(_prod) {
       console.log(err);
     }
   });
+}
+
+lazy_func = function(_operation, _file, _category, _name) {
+  var data = {operation: _operation, file: _file, category: _category, name: _name};
+  var json_data = JSON.stringify(data);
+  $.ajax({
+    method: 'PUT',
+    dataType: 'json',
+    url: 'api/cms/img',
+    data: json_data,
+    success: function(res) {
+      console.log(res);
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  })
 }
