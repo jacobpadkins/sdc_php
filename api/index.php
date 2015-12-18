@@ -177,7 +177,7 @@ $app->post('/cms/email', function() use ($app, $db) {
 
   $date = date('m/d/Y h:i:s a', time());
 
-  $to = 'jacobpadkins@gmail.com'; //vision@thestoredecor.com
+  $to = 'vision@thestoredecor.com';
   $subject = 'Contact Us Form Submission';
   $message = 'Someone filled out the contact form at: ' . $date . "\r\n"
     . 'name: ' . $name . "\r\n" . 'company: ' . $company . "\r\n"
