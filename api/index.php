@@ -120,12 +120,45 @@ $app->get('/cms/capa', function() use ($app, $db) {
   echo json_encode($query['Capabilities']);
 });
 
-// adds a new capability category names
+// adds a new capability category name
 $app->post('/cms/capa', function() use ($app, $db) {
   $request = $app->request();
   $inputs = json_decode($request->getBody(), true);
   $capa = $inputs['capa'];
   $db->data->update(array('name' => 'data'), array('$push' => array('Capabilities' => $capa)));
+  echo json_encode('success');
+});
+
+// update capability category name
+$app->put('/cms/capa', function() use ($app, $db) {
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $capa = $inputs['capa'];
+  $name = $inputs['name'];
+  // update value in data collection
+  $db->data->update(array('name' => 'data'), array('$pull' => array('Capabilities' => $capa)));
+  $db->data->update(array('name' => 'data'), array('$addToSet' => array('Capabilities' => $name)));
+  // update value wherever it appears in images collection
+  $response = $db->images->find(array('Products' => $capa), array('filename' => 1));
+  foreach ($response as $id => $value) {
+    $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Products' => $capa)));
+    $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Products' => $name)));
+  }
+  // update value in flags for color
+  $old_str = '{"rep_bw":"' . $capa . '"}';
+  $new_str = '{"rep_bw":"' . $name . '"}';
+  $response = $db->images->find(array('Flags' => $old_str), array('filename' => 1));
+  foreach ($response as $id => $value) {
+   $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Flags' => $old_str))); 
+   $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Flags' => $new_str)));  
+  }
+  $old_str = '{"rep_color":"' . $capa . '"}';
+  $new_str = '{"rep_color":"' . $name . '"}';
+  $response = $db->images->find(array('Flags' => $old_str), array('filename' => 1));
+  foreach ($response as $id => $value) {
+   $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Flags' => $old_str))); 
+   $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Flags' => $new_str)));  
+  }
   echo json_encode('success');
 });
 
@@ -168,8 +201,22 @@ $app->put('/cms/prod', function() use ($app, $db) {
     $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Products' => $prod)));
     $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Products' => $name)));
   }
-  // update value in flags
-
+  // update value in flags for color
+  $old_str = '{"rep_bw":"' . $prod . '"}';
+  $new_str = '{"rep_bw":"' . $name . '"}';
+  $response = $db->images->find(array('Flags' => $old_str), array('filename' => 1));
+  foreach ($response as $id => $value) {
+   $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Flags' => $old_str))); 
+   $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Flags' => $new_str)));  
+  }
+  $old_str = '{"rep_color":"' . $prod . '"}';
+  $new_str = '{"rep_color":"' . $name . '"}';
+  $response = $db->images->find(array('Flags' => $old_str), array('filename' => 1));
+  foreach ($response as $id => $value) {
+   $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Flags' => $old_str))); 
+   $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Flags' => $new_str)));  
+  }
+  echo json_encode('success');
 });
 
 // delete a product category

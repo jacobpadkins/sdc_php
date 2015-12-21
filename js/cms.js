@@ -136,21 +136,23 @@ $(document).ready(function() {
   });
 
   // change the prod listing to text input on click
-  $('#prods_col').on('click', 'span', function() {
-   var data = {prod: $(this).text(), name: 'Test Name Update'};
-   var json_data = JSON.stringify(data); 
-   $.ajax({
-     method: 'PUT',
-     datatype: 'json',
-     url: 'api/cms/prod',
-     data: json_data,
-     success: function(res) {
-      console.log(res);
-     },
-     error: function(res) {
-      console.log(res);
-     }
-    });
+  $('#capas_col').on('click', 'span', function() {
+   //var data = {capa: $(this).text(), name: 'Test Name Update2'};
+   //var json_data = JSON.stringify(data); 
+   //$.ajax({
+     //method: 'PUT',
+     //datatype: 'json',
+     //url: 'api/cms/capa',
+     //data: json_data,
+     //success: function(res) {
+      //console.log(res);
+     //},
+     //error: function(res) {
+      //console.log(res);
+     //}
+    //});
+    $(this).siblings('input').css('display', 'inline');
+    $(this).css('display', 'none'); 
   });
 });
 
