@@ -1,6 +1,6 @@
 <Files "cms.html">
-AuthType Basic
-AuthName "CMS"
-AuthUserFile /home/storedecorftp/.htpassword
-Require user storedecor
+#AuthType Basic
+#AuthName "CMS"
+#AuthUserFile /home/storedecorftp/.htpassword
+#Require user storedecor
 </Files>

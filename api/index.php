@@ -88,7 +88,7 @@ $app->put('/cms/img', function() use ($app, $db) {
         break;
     }
   }
-  echo json_encode('successfully changed ' . $name . ' for ' . $file);
+  echo json_encode('success');
 });
 
 // deletes an image in the uploads folder
@@ -153,8 +153,27 @@ $app->post('/cms/prod', function() use ($app, $db) {
   echo json_encode('success');
 });
 
+// update product category name
+$app->put('/cms/prod', function() use ($app, $db) {
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $prod = $inputs['prod'];
+  $name = $inputs['name'];
+  // update value in data collection
+  $db->data->update(array('name' => 'data'), array('$pull' => array('Products' => $prod)));
+  $db->data->update(array('name' => 'data'), array('$addToSet' => array('Products' => $name)));
+  // update value wherever it appears in images collection
+  $response = $db->images->find(array('Products' => $prod), array('filename' => 1));
+  foreach ($response as $id => $value) {
+    $db->images->update(array('filename' => $value['filename']), array('$pull' => array('Products' => $prod)));
+    $db->images->update(array('filename' => $value['filename']), array('$addToSet' => array('Products' => $name)));
+  }
+  // update value in flags
+
+});
+
 // delete a product category
-$app->delete('/cms/capa', function() use ($app, $db) {
+$app->delete('/cms/prod', function() use ($app, $db) {
   $request = $app->request();
   $inputs = json_decode($request->getBody(), true);
   $prod = $inputs['prod'];

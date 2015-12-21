@@ -103,17 +103,19 @@ $(document).ready(function() {
     if (global.selected && $(this).attr('name') != 'is_a') {
       if ($(this).attr('name') == 'rep_color') {
         var flag_obj = {rep_color: $(this).siblings('.x_mark').children('span').text()};
+        var json_flag_obj = JSON.stringify(flag_obj);
         if ($(this).is(':checked')) {
-          lazy_func(1, global.selected_file, 'flag', flag_obj);
+          lazy_func(1, global.selected_file, 'flag', json_flag_obj);
         } else if (!$(this).is(':checked')) {
-          lazy_func(0, global.selected_file, 'flag', flag_obj);
+          lazy_func(0, global.selected_file, 'flag', json_flag_obj);
         }
       } else if ($(this).attr('name') == 'rep_bw') {
-        flag_obj = {rep_bw: $(this).siblings('.x_mark').children('span').text()}
+        var flag_obj = {rep_bw: $(this).siblings('.x_mark').children('span').text()}
+        var json_flag_obj = JSON.stringify(flag_obj);
         if ($(this).is(':checked')) {
-          lazy_func(1, global.selected_file, 'flag', flag_obj);
+          lazy_func(1, global.selected_file, 'flag', json_flag_obj);
         } else if (!$(this).is(':checked')) {
-          lazy_func(0, global.selected_file, 'flag', flag_obj);
+          lazy_func(0, global.selected_file, 'flag', json_flag_obj);
         }
       }
     } else if (global.selected && $(this).attr('name') == 'is_a') {
@@ -131,6 +133,24 @@ $(document).ready(function() {
         }
       }
     }
+  });
+
+  // change the prod listing to text input on click
+  $('#prods_col').on('click', 'span', function() {
+   var data = {prod: $(this).text(), name: 'Test Name Update'};
+   var json_data = JSON.stringify(data); 
+   $.ajax({
+     method: 'PUT',
+     datatype: 'json',
+     url: 'api/cms/prod',
+     data: json_data,
+     success: function(res) {
+      console.log(res);
+     },
+     error: function(res) {
+      console.log(res);
+     }
+    });
   });
 });
 
