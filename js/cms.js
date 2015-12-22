@@ -135,24 +135,56 @@ $(document).ready(function() {
     }
   });
 
-  // change the prod listing to text input on click
+  // display the capa namechange modal on category click
   $('#capas_col').on('click', 'span', function() {
-   //var data = {capa: $(this).text(), name: 'Test Name Update2'};
-   //var json_data = JSON.stringify(data); 
-   //$.ajax({
-     //method: 'PUT',
-     //datatype: 'json',
-     //url: 'api/cms/capa',
-     //data: json_data,
-     //success: function(res) {
-      //console.log(res);
-     //},
-     //error: function(res) {
-      //console.log(res);
-     //}
-    //});
-    $(this).siblings('input').css('display', 'inline');
-    $(this).css('display', 'none'); 
+    $('#current_capa_name').text($(this).text());
+    $('#modal_capa_namechange').modal('show');
+  });
+
+  // display the prod namechange modal on category click
+  $('#prods_col').on('click', 'span', function() {
+    $('#current_prod_name').text($(this).text());
+    $('#modal_prod_namechange').modal('show');
+  });
+  
+  // update capa name
+  $('#submit_capa_name').on('click', function() {
+    var _capa = $('#current_capa_name').text();
+    var _name = $('#new_capa_name').val();
+    var data = {capa: _capa, name: _name};
+    var json_data = JSON.stringify(data);
+    $.ajax({
+      url: 'api/cms/capa',
+      method: 'PUT',
+      datatype: 'json',
+      data: json_data,
+      success: function(res) {
+        location.reload();   
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+  // update prod name
+  $('#submit_prod_name').on('click', function() {
+    var _prod = $('#current_prod_name').text();
+    var _name = $('#new_prod_name').val();
+    var data = {prod: _prod, name: _name};
+    var json_data = JSON.stringify(data);
+    $.ajax({
+      url: 'api/cms/prod',
+      method: 'PUT',
+      datatype: 'json',
+      data: json_data,
+      success: function(res) {
+        location.reload();   
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   });
 });
 
