@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/lightbox.css">
     <link rel="stylesheet" href="css/cms.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--link rel="stylesheet" href="css/main.css"-->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.timer.js"></script>
+    <script src="js/Sortable.min.js"></script>
     <script src="js/cms.js"></script>
   </head>
   <body>
@@ -68,6 +70,24 @@
             <h6>Current Name: <span id="current_prod_name">N/A</span></h6>
             New Name: <input type="text" id="new_prod_name" class="form-control" />
             <button id="submit_prod_name" class="btn btn-submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Importance Order Change Modal -->
+    <div id="modal_importance" class="modal fade" role="dialogue">
+      <div class="modal-dialogue">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Change Importance Level</h4>
+          </div>
+          <div class="modal-body">
+            <h6>Rankings for category: <span id="importance_name">N/A</span></h6>
+            The higher the more important:<br />
+            <ul class="list-group sortable" id="importance_list"></ul>
+            <button id="submit_importance" class="btn btn-submit">Submit</button>
           </div>
         </div>
       </div>

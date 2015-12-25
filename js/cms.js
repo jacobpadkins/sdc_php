@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   global.selected_file = '';
   global.selected = false;
-
+  global.filter = false;
   populate_images();
   populate_categories();
 
@@ -42,8 +42,9 @@ $(document).ready(function() {
 
   // change selected image on click
   $('#images_col').on('click', '.image .x_mark span', function() {
-    $('#images_col .image').css('background-color', '');
+    $('#images_col .image, #images_col span').css('background-color', '');
     clear_categories();
+    $('i').css('color', '');
     if ($(this).text() != global.selected_file) {
       global.selected_file = $(this).text();
       $('#file_preview').attr('src', 'images/uploads/' + $(this).text());
@@ -146,7 +147,7 @@ $(document).ready(function() {
     $('#current_prod_name').text($(this).text());
     $('#modal_prod_namechange').modal('show');
   });
-  
+
   // update capa name
   $('#submit_capa_name').on('click', function() {
     var _capa = $('#current_capa_name').text();
@@ -159,7 +160,7 @@ $(document).ready(function() {
       datatype: 'json',
       data: json_data,
       success: function(res) {
-        location.reload();   
+        location.reload();
       },
       error: function(err) {
         console.log(err);
@@ -179,12 +180,146 @@ $(document).ready(function() {
       datatype: 'json',
       data: json_data,
       success: function(res) {
-        location.reload();   
+        location.reload();
       },
       error: function(err) {
         console.log(err);
       }
     });
+  });
+
+  // sort images on capability click
+  $('#capas_col').on('click', 'i.fa-eye', function() {
+    var color = $(this).css('color');
+    if (color == '#F26522' || color == 'rgb(242, 101, 34)') { 
+      $('.image, span').css('background-color', '');
+      $('i').css('color', ''); 
+    } else {
+      if (global.selected = true) {
+        global.selected_file = '';
+        global.selected = false;
+        clear_categories();
+      }
+      $('i').css('color', '');
+      $(this).css('color', '#F26522');
+      $('.image, span').css('background-color', '');
+      global.filter = true;
+      var category = $(this).siblings('div').children('span').text();
+      $.ajax({
+        method: 'GET',
+        url: 'api/cms',
+        datatype: 'json',
+        success: function(res) {
+          res = JSON.parse(res);
+          console.log(res);
+          for (var i = 0; i < res.imgs.length; i++) {
+            for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
+              if (res.imgs[i].Capabilities[j] == category) {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'orange');
+              }
+            }
+            for (var j = 0; j < res.imgs[i].Flags.length; j++) {
+              flag_obj = res.imgs[i].Flags[j];
+              console.log(flag_obj);
+              if (flag_obj != undefined && flag_obj == '{"rep_color":"' + category + '"}') {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'Gold');
+              }
+              if (flag_obj != undefined && flag_obj == '{"rep_bw":"' + category + '"}') {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'Silver');
+              }
+            }
+          }
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    }
+  });
+
+  // sort images on product click
+  $('#prods_col').on('click', 'i.fa-eye', function() {
+    var color = $(this).css('color');
+    if (color == '#F26522' || color == 'rgb(242, 101, 34)') { 
+      $('.image, span').css('background-color', '');
+      $('i').css('color', ''); 
+    } else {
+      if (global.selected = true) {
+        global.selected_file = '';
+        global.selected = false;
+        clear_categories();
+      }
+      $('i').css('color', '');
+      $(this).css('color', '#F26522');
+      $('.image, span').css('background-color', '');
+      global.filter = true;
+      var category = $(this).siblings('div').children('span').text();
+      $.ajax({
+        method: 'GET',
+        url: 'api/cms',
+        datatype: 'json',
+        success: function(res) {
+          res = JSON.parse(res); 
+          for (var i = 0; i < res.imgs.length; i++) {
+            for (var j = 0; j < res.imgs[i].Products.length; j++) {
+              if (res.imgs[i].Products[j] == category) {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'orange');
+              }
+            }
+            for (var j = 0; j < res.imgs[i].Flags.length; j++) {
+              flag_obj = res.imgs[i].Flags[j]; 
+              if (flag_obj != undefined && flag_obj == '{"rep_color":"' + category + '"}') {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'Gold');
+              }
+              if (flag_obj != undefined && flag_obj == '{"rep_bw":"' + category + '"}') {
+                $('span:contains(' + res.imgs[i].filename + ')').css('background-color', 'Silver');
+              }
+            }
+          }
+        },
+        error: function(err) {
+          console.log(err);
+        }
+     });
+    }
+  });
+
+  // open sorting modal
+  $('#capas_col, #prods_col').on('click', 'i.fa-exclamation', function() {
+    var category = $(this).siblings('div').children('span').text();
+    $.ajax({
+      method: 'GET',
+      url: 'api/cms',
+      datatype: 'json',
+      success: function(res) {
+        res = JSON.parse(res); 
+        for (var i = 0; i < res.imgs.length; i++) {
+          for (var j = 0; j < res.imgs[i].Products.length; j++) {
+            if (res.imgs[i].Products[j] == category) {
+              $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
+                + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
+            }
+          }
+          for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
+            if (res.imgs[i].Capabilities[j] == category) {
+              $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
+                + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
+            }
+          } 
+
+        }
+        new Sortable(document.getElementsByClassName('sortable')[0]);
+        $('#importance_name').text(category);
+        $('#modal_importance').modal('show'); 
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+  $('#submit_importance').on('click', function() {
+    $('#modal_importance').modal('hide');
   });
 });
 
@@ -227,7 +362,7 @@ populate_categories = function() {
       console.log(res);
       res.sort();
       for (var i = 0; i < res.length; i++) {
-        $('#capas_col').append('<div class="capa"><div class="x_box"></div><input type="checkbox" name="is_a"><input type="checkbox" name="rep_color"><input type="checkbox" name="rep_bw"><div class="x_mark"><span>' + res[i] + '</span></div></div>');
+        $('#capas_col').append('<div class="capa"><div class="x_box"></div><input type="checkbox" name="is_a"><input type="checkbox" name="rep_color"><input type="checkbox" name="rep_bw"><i class="fa fa-eye"></i><i class="fa fa-exclamation"></i><div class="x_mark"><span>' + res[i] + '</span></div></div>');
       }
     }
   });
@@ -240,7 +375,7 @@ populate_categories = function() {
       console.log(res);
       res.sort();
       for (var i = 0; i < res.length; i++) {
-        $('#prods_col').append('<div class="prod"><div class="x_box"></div><input type="checkbox" name="is_a"><input type="checkbox" name="rep_color"><input type="checkbox" name="rep_bw"><div class="x_mark"><span>' + res[i] + '</span></div></div>');
+        $('#prods_col').append('<div class="prod"><div class="x_box"></div><input type="checkbox" name="is_a"><input type="checkbox" name="rep_color"><input type="checkbox" name="rep_bw"><i class="fa fa-eye"></i><i class="fa fa-exclamation"></i><div class="x_mark"><span>' + res[i] + '</span></div></div>');
       }
     }
   });
