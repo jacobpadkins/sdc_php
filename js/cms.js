@@ -296,7 +296,8 @@ $(document).ready(function() {
         for (var i = 0; i < res.imgs.length; i++) {
           for (var j = 0; j < res.imgs[i].Products.length; j++) {
             if (res.imgs[i].Products[j] == category) {
-              $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
+              $('#importance_list').empty();
+	      $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
           }
