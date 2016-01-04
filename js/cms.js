@@ -292,18 +292,17 @@ $(document).ready(function() {
       url: 'api/cms',
       datatype: 'json',
       success: function(res) {
+        $('#importance_list').empty();
         res = JSON.parse(res); 
-        for (var i = 0; i < res.imgs.length; i++) {
+        for (var i = 0; i < res.imgs.length; i++) {  
           for (var j = 0; j < res.imgs[i].Products.length; j++) {
-            if (res.imgs[i].Products[j] == category) {
-              $('#importance_list').empty();
+            if (res.imgs[i].Products[j] == category) { 
 	      $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
           }
           for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
             if (res.imgs[i].Capabilities[j] == category) {
-              $('#importance_list').empty();
               $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
