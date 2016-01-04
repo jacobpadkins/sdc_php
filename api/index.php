@@ -62,6 +62,7 @@ $app->put('/cms/img', function() use ($app, $db) {
   $category = $inputs['category'];
   $file = $inputs['file'];
   $name = $inputs['name'];
+  // push
   if ($operation == 1) {
     switch ($category) {
       case 'capa':
@@ -75,6 +76,7 @@ $app->put('/cms/img', function() use ($app, $db) {
         break;
     }
   }
+  // pull
   else {
     switch ($category) {
       case 'capa':
@@ -112,6 +114,16 @@ $app->post('/cms/img/tags', function() use ($app, $db) {
   $tags = array('Capabilities' => $query['Capabilities'], 'Products' => $query['Products'],
     'Flags' => $query['Flags']);
   echo json_encode($tags);
+});
+
+// sets the importance rank of the images
+$app->post('/cms/img/rank', function() use ($app, $db) {
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $category = $inputs['category'];
+  $filename = $inputs['filename'];
+  $rank = $inputs['rank']; 
+  echo json_encode('success');
 });
 
 // returns array of all capability category names

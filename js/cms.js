@@ -303,11 +303,11 @@ $(document).ready(function() {
           }
           for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
             if (res.imgs[i].Capabilities[j] == category) {
+              $('#importance_list').empty();
               $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
           } 
-
         }
         new Sortable(document.getElementsByClassName('sortable')[0]);
         $('#importance_name').text(category);
@@ -318,8 +318,24 @@ $(document).ready(function() {
       }
     });
   });
-
+  
+  // submit sorting modal contents
   $('#submit_importance').on('click', function() {
+    var _category = $('#importance_name').text();
+    $('#importance_list li').each(function(i, v) {
+      var _filename = $(v).children('img').attr('src').replace('images/uploads/', ''); 
+      var _rank = i;
+      var rank_object = {category: _category, filename: _filename, rank: _rank};
+      var json_object = JSON.stringify(rank_object);
+      $.ajax({
+        url: 'api/cms/img/rank',
+        method: 'POST',
+        datatype: 'json',
+        data: json_object,
+        success: function(res) { console.log(res); },
+        error: function(err) { console.log(err); }
+      });
+    });
     $('#modal_importance').modal('hide');
   });
 });
