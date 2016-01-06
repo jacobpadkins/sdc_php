@@ -49,7 +49,7 @@ $app->post('/cms/img', function () use ($app, $db) {
   //header("Location: localhost:9000/webapp_new/");
   // update database
   $doc = array('filename' => $_FILES['file_to_upload']['name'], 'Capabilities' => array(),
-    'Products' => array(), 'Flags' => array());
+    'Products' => array(), 'Flags' => array(), 'Caption' => '');
   $db->images->insert($doc);
   exit();
 });
@@ -123,6 +123,21 @@ $app->post('/cms/img/rank', function() use ($app, $db) {
   $category = $inputs['category'];
   $filename = $inputs['filename'];
   $rank = $inputs['rank']; 
+  echo json_encode('success');
+});
+
+$app->get('/cms/img/caption', function() use ($app, $db) {
+  $filename = $app->request()->params('filename');
+  $query = $db->images->findOne(array('filename' => $filename), array('Caption' => 1));
+  echo json_encode($query['Caption']);
+});
+
+$app->post('/cms/img/caption', function() use ($app, $db) {
+  $request = $app->request();
+  $inputs = json_decode($request->getBody(), true);
+  $filename = $inputs['filename'];
+  $caption = $inputs['caption'];
+  $db->images->update(array('filename' => $filename), array('$set' => array('Caption' => $caption)));
   echo json_encode('success');
 });
 

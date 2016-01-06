@@ -404,6 +404,10 @@ database = function() {
       global.prodCats.sort();
       var index;
       for (var i = 0; i < res.imgs.length; i++) {
+        var do_caption = false;
+        if (res.imgs[i].Caption != '') {
+          do_caption = true;
+        }
         index = $.inArray('Small_Slide', res.imgs[i].Flags);
         if (index != -1) {
           global.smallSlidePics.push(res.imgs[i].filename);
@@ -416,11 +420,19 @@ database = function() {
         }
         for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
           var lightbox_str = res.imgs[i].Capabilities[j];
-          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+          if (do_caption) {
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '"></a>');
+          } else {
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+          }
         }
         for (var j = 0; j < res.imgs[i].Products.length; j++) {
           var lightbox_str = res.imgs[i].Products[j];
-          $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+          if (do_caption) {
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '"></a>');
+          } else {
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+          }
         }
         for (var j = 0; j < res.imgs[i].Flags.length; j++) {
           var flag_obj = JSON.parse(res.imgs[i].Flags[j]);

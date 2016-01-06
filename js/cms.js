@@ -337,6 +337,41 @@ $(document).ready(function() {
     });
     $('#modal_importance').modal('hide');
   });
+
+  $('#images_col').on('click', 'i.fa-comment', function() {
+    var filename = $(this).siblings('div').children('span').text(); 
+    $.ajax({
+      method: 'GET',
+      url: 'api/cms/img/caption', 
+      data: 'filename=' + filename,
+      datatype: 'json',
+      success: function(res) { 
+        console.log('filename: ' + res);
+        $('#current_caption').text(res); 
+        $('#caption_name').text(filename);
+        $('#caption_preview').attr('src', 'images/uploads/' + filename);
+        $('#modal_caption').modal('show'); 
+      },
+      error: function(err) { console.log(err); }
+    });
+  });
+
+  $('#submit_caption').on('click', function() {
+    var _filename = $('#caption_name').text();
+    var _caption = $('#caption').val();
+    var data_object = {filename: _filename, caption: _caption};
+    var json_object = JSON.stringify(data_object);
+    console.log(json_object);
+    $.ajax({
+      method: 'POST',
+      url: 'api/cms/img/caption',
+      datatype: 'json',
+      data: json_object,
+      success: function(res) { console.log(res); },
+      error: function(err) { console.log(err); }
+    });
+    $('#modal_caption').modal('hide');
+  });
 });
 
 set_preview = function(input) {
@@ -358,11 +393,11 @@ populate_images = function() {
     success: function(res) {
       res.sort();
       for (var i = 0; i < res.length; i++) {
-        $('#images_col').append('<div class="image"><div class="x_box"></div><input type="checkbox" name="Big_Slide"><input type="checkbox" name="Small_Slide"><div class="x_mark"><span>' + res[i] + '</span></div></div>');
+        $('#images_col').append('<div class="image"><div class="x_box"></div><input type="checkbox" name="Big_Slide"><input type="checkbox" name="Small_Slide"><i class="fa fa-comment"></i><div class="x_mark"><span>' + res[i] + '</span></div></div>');
       }
     },
     error: function(err) {
-      console.log('ERROR in populate_images()');
+      console.log('Error in populate_images(): ' + err);
     }
   });
 }

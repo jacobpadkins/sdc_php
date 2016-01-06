@@ -93,5 +93,25 @@
       </div>
     </div>
 
+    <!-- Caption Modal -->
+    <div id="modal_caption" class="modal fade" role="dialogue">
+      <div class="modal-dialogue">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Change Image Caption</h4>
+          </div>
+          <div class="modal-body">
+            <h6>image: <span id="caption_name">N/A</span></h6> 
+            <h6>The current caption is: <span id="current_caption"></span></h6>
+            <h6>Enter nothing to remove caption</h6>
+            <img src="images/close.png" id="caption_preview" alt="image preview"> 
+            <input type="text" id="caption" class="form-control" />
+            <button id="submit_caption" class="btn btn-submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

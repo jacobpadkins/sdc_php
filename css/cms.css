@@ -162,6 +162,9 @@ i.fa-eye {
 i.fa-exclamation {
   margin-left: 5px;
 }
+i.fa-comment {
+  margin-left: 5px;
+}
 i:hover {
   cursor: pointer;
 }
@@ -179,7 +182,7 @@ input[type="checkbox"]:nth-of-type(1) {
 }
 #images_col span {
   white-space: nowrap;
-  margin-left: 55px;
+  margin-left: 73px;
   position: relative;
 }
 #images_col span:hover {
@@ -194,4 +197,11 @@ div.image,
 div.capa,
 div.prod {
   border-bottom: 2px solid #000;
+}
+#caption_preview {
+  max-width: 300px;
+}
+#caption {
+  width: 50%;
+  margin-top: 20px;
 }
