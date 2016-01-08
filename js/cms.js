@@ -291,23 +291,39 @@ $(document).ready(function() {
       method: 'GET',
       url: 'api/cms',
       datatype: 'json',
-      success: function(res) {
+      success: function(res) {                 
         $('#importance_list').empty();
         res = JSON.parse(res); 
         for (var i = 0; i < res.imgs.length; i++) {  
           for (var j = 0; j < res.imgs[i].Products.length; j++) {
+            var rank = 1000;
+            for (var k = 0; k < res.imgs[i].Rank.length; k++) {
+              if (res.imgs[i].Rank[k][res.imgs[i].Products[j]] !== undefined) {
+                rank = res.imgs[i].Rank[k][res.imgs[i].Products[j]];
+              }
+            }
             if (res.imgs[i].Products[j] == category) { 
-	      $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
+	      $('#importance_list').append('<li class="list-group-item" rank="' + rank + '"><img src="images/uploads/' 
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
           }
           for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
+            var rank = 1000;
+            for (var k = 0; k < res.imgs[i].Rank.length; k++) {
+              if (res.imgs[i].Rank[k][res.imgs[i].Capabilities[j]] !== undefined) {
+                rank = res.imgs[i].Rank[k][res.imgs[i].Capabilities[j]];
+              }
+            }
             if (res.imgs[i].Capabilities[j] == category) {
-              $('#importance_list').append('<li class="list-group-item"><img src="images/uploads/'
+              $('#importance_list').append('<li class="list-group-item" rank="' + rank + '"><img src="images/uploads/'
                 + res.imgs[i].filename + '" style="width: 50px; height: 50px;"/></li>');
             }
           } 
         }
+        var $list = $('#importance_list');
+        $list.find('li').sort(function(a,b) {
+          return $(a).attr('rank') - $(b).attr('rank');
+        }).appendTo('#importance_list');
         new Sortable(document.getElementsByClassName('sortable')[0]);
         $('#importance_name').text(category);
         $('#modal_importance').modal('show'); 
@@ -321,19 +337,21 @@ $(document).ready(function() {
   // submit sorting modal contents
   $('#submit_importance').on('click', function() {
     var _category = $('#importance_name').text();
+    var data = [];
     $('#importance_list li').each(function(i, v) {
       var _filename = $(v).children('img').attr('src').replace('images/uploads/', ''); 
       var _rank = i;
       var rank_object = {category: _category, filename: _filename, rank: _rank};
-      var json_object = JSON.stringify(rank_object);
-      $.ajax({
-        url: 'api/cms/img/rank',
-        method: 'POST',
-        datatype: 'json',
-        data: json_object,
-        success: function(res) { console.log(res); },
-        error: function(err) { console.log(err); }
-      });
+      data.push(rank_object); 
+    });
+    var json_object = JSON.stringify(data); 
+    $.ajax({
+      url: 'api/cms/img/rank',
+      method: 'POST',
+      datatype: 'json',
+      data: json_object,
+      success: function(res) { console.log(res); },
+      error: function(err) { console.log(err); }
     });
     $('#modal_importance').modal('hide');
   });

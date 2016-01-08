@@ -420,18 +420,30 @@ database = function() {
         }
         for (var j = 0; j < res.imgs[i].Capabilities.length; j++) {
           var lightbox_str = res.imgs[i].Capabilities[j];
+          var rank = 1000;
+          for (var k = 0; k < res.imgs[i].Rank.length; k++) {
+            if (res.imgs[i].Rank[k][res.imgs[i].Capabilities[j]] !== undefined) {
+              rank = res.imgs[i].Rank[k][res.imgs[i].Capabilities[j]];
+            }
+          }
           if (do_caption) {
-            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '"></a>');
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '" rank="' + rank + '"></a>');
           } else {
-            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" rank="' + rank + '"></a>');
           }
         }
         for (var j = 0; j < res.imgs[i].Products.length; j++) {
           var lightbox_str = res.imgs[i].Products[j];
+          var rank = 1000;
+          for (var k = 0; k < res.imgs[i].Rank.length; k++) {
+            if (res.imgs[i].Capabilities[j] in res.imgs[i].Rank[k]) {
+              rank = res.imgs[i].Rank[res.imgs[i].Capabilities[j]];
+            }
+          }
           if (do_caption) {
-            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '"></a>');
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" data-title="' + res.imgs[i].Caption + '" rank="' + rank + '"></a>');
           } else {
-            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '"></a>');
+            $('#wrapper').append('<a href="images/uploads/' + res.imgs[i].filename + '" data-lightbox="' + lightbox_str + '" rank="' + rank + '"></a>');
           }
         }
         for (var j = 0; j < res.imgs[i].Flags.length; j++) {
@@ -443,6 +455,16 @@ database = function() {
             global.bwPics[flag_obj["rep_bw"]] = res.imgs[i].filename;
           }
         }
+      }
+      for (var i = 0; i < res.capas.length; i++) {
+        $('#wrapper').find('[data-lightbox="' + res.capas[i] + '"]').sort(function(a, b) {
+          return $(a).attr('rank') - $(b).attr('rank'); 
+        }).appendTo('#wrapper');
+      }
+      for (var i = 0; i < res.prods.length; i++) {
+        $('#wrapper').find('[data-lightbox="' + res.prods[i] + '"]').sort(function(a, b) {
+          return $(a).attr('rank') - $(b).attr('rank'); 
+        }).appendTo('#wrapper');
       }
       global.$img0.attr('src', 'images/uploads/' + global.smallSlidePics[0]);
       global.$img1.attr('src', 'images/uploads/' + global.smallSlidePics[1]);

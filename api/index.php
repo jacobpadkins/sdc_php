@@ -9,6 +9,12 @@ $db = $m->cms;
 
 // make sure the cms db contains a 'data' collection with
 // a document { name: 'data', 'Capabilities': [], 'Products': [] }
+//
+// to migrate database from old backup run these commands in mongo shell:
+//
+// db.images.update({}, {$set: {'Caption' : ''}}, false, true)
+// db.images.update({}, {$set: {'Rank' : []}}, false, true)
+
 
 /* ENDPOINTS */
 
@@ -119,10 +125,12 @@ $app->post('/cms/img/tags', function() use ($app, $db) {
 // sets the importance rank of the images
 $app->post('/cms/img/rank', function() use ($app, $db) {
   $request = $app->request();
-  $inputs = json_decode($request->getBody(), true);
-  $category = $inputs['category'];
-  $filename = $inputs['filename'];
-  $rank = $inputs['rank']; 
+  $inputs = json_decode($request->getBody(), true);  
+  foreach($inputs as $doc) {
+    $db->images->update(array('filename' => $doc['filename']), array('$unset' => array('Rank' => array($doc['category'] => ''))));
+    $db->images->update(array('filename' => $doc['filename']), array('$push' => array('Rank' => array($doc['category'] => $doc['rank']))));
+    echo json_encode(implode($doc));
+  }
   echo json_encode('success');
 });
 

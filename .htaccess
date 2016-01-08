@@ -1,4 +1,4 @@
-<Files "cms.html">
+Files "cms.html">
 AuthType Basic
 AuthName "CMS"
 AuthUserFile /home/storedecorftp/.htpassword
